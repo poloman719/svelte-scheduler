@@ -1,0 +1,1 @@
+<div class="bg-main-500 w-2/3"></div>
