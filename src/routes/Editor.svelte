@@ -1,7 +1,8 @@
 <script>
 	// @ts-nocheck
 
-	import Task from './Task.svelte';
+	import Draggable from './Draggable.svelte';
+import Task from './Task.svelte';
 	import Time from './Time.svelte';
 	let tasks = [
 		{ text: 'task 1', duration: 5 },
@@ -74,6 +75,6 @@
 			on:keypress={onAddTask}
 		/> min
 	</div>
-	<div class="bg-main-500" bind:this={dragg}>draggable</div>
+<Draggable><div class="bg-main-500 text-center">draggable</div></Draggable>
 </div>
 
