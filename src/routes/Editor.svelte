@@ -13,12 +13,14 @@
 	let times;
 	let initHour = 12;
 	let initMinute = 0;
+	let taskInput;
+	let dragg;
 	$: {
 		const date = new Date();
-		date.setHours(initHour)
-		date.setMinutes(initMinute)
-		date.setSeconds(0)
-		date.setMilliseconds(0)
+		date.setHours(initHour);
+		date.setMinutes(initMinute);
+		date.setSeconds(0);
+		date.setMilliseconds(0);
 		initTime = date.getTime();
 	}
 	$: {
@@ -35,12 +37,15 @@
 			taskToAdd = '';
 			durationToAdd = '';
 		}
+		taskInput.focus();
 	};
 </script>
 
 <div class="bg-main-300 w-1/3 p-10 flex flex-col gap-3">
 	<div class="text-xl">EDITOR</div>
-	<div class="text-center border-b border-main-50"><Time hour={initHour} minute={initMinute}/></div>
+	<div class="text-center border-b border-main-50">
+		<Time hour={initHour} minute={initMinute} />
+	</div>
 	{#each tasks as task, i (i)}
 		<Task
 			text={task.text}
@@ -56,11 +61,12 @@
 			class="outline-none bg-opacity-0 placeholder-main-50 w-3/4"
 			placeholder="type to add task"
 			bind:value={taskToAdd}
+			bind:this={taskInput}
 		/>
 		<input
 			type="number"
-			class="outline-none w-5 placeholder-main-50"
-			placeholder="00"
+			class="outline-none w-5 placeholder-main-50 text-end"
+			placeholder="0"
 			bind:value={durationToAdd}
 			on:change={(e) => {
 				if (e.target.value > 60) e.preventDefault();
@@ -68,4 +74,6 @@
 			on:keypress={onAddTask}
 		/> min
 	</div>
+	<div class="bg-main-500" bind:this={dragg}>draggable</div>
 </div>
+

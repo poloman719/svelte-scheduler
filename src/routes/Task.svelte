@@ -1,7 +1,8 @@
 <script>
-// @ts-nocheck
+	// @ts-nocheck
 
-	import Time from "./Time.svelte";
+	import Time from './Time.svelte';
+	import drag from '$lib/_drag.svg';
 
 	export let text = '';
 	export let duration = 0;
@@ -10,6 +11,7 @@
 	export let onDurationChange;
 	let hour;
 	let minute;
+	let dragging = false;
 	$: {
 		const date = new Date(time);
 		hour = date.getHours();
@@ -17,13 +19,19 @@
 	}
 </script>
 
-<div class="rounded-3xl bg-main-500 p-7 flex justify-between gap-2">
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div
+	class="rounded-3xl bg-main-500 p-7 pl-2 flex justify-between gap-2"
+	class:bg-opacity-50={dragging}
+	draggable
+>
+	<object data={drag} title="drag" />
 	<input type="text" class="outline-none w-3/4" bind:value={text} on:change={onTextChange} />
 	<input
 		type="text"
-		class="outline-none w-5"
+		class="outline-none w-5 text-end"
 		bind:value={duration}
 		on:change={onDurationChange}
 	/> min
 </div>
-<div class="text-center"><Time hour={hour} minute={minute}/></div>
+<div class="text-center"><Time {hour} {minute} /></div>
