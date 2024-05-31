@@ -26,7 +26,7 @@
 	class:bg-opacity-50={dragging}
 	use:draggable
 >
-	<object data={drag} title="drag" />
+	<object data={drag} title="drag" class="pointer-events-none select-none"/>
 	<input type="text" class="outline-none w-3/4" bind:value={text} on:change={onTextChange} />
 	<input
 		type="text"
