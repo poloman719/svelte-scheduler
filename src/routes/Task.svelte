@@ -3,6 +3,7 @@
 
 	import Time from './Time.svelte';
 	import drag from '$lib/_drag.svg';
+	import { draggable } from '$lib/draggable';
 
 	export let text = '';
 	export let duration = 0;
@@ -23,7 +24,7 @@
 <div
 	class="rounded-3xl bg-main-500 p-7 pl-2 flex justify-between gap-2"
 	class:bg-opacity-50={dragging}
-	draggable
+	use:draggable
 >
 	<object data={drag} title="drag" />
 	<input type="text" class="outline-none w-3/4" bind:value={text} on:change={onTextChange} />
