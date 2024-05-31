@@ -27,8 +27,8 @@ export const draggable = (node) => {
     startX = e.clientX
     startY = e.clientY
 
-    clone.style.left = startX + "px"
-    clone.style.top = startY + "px"
+    clone.style.left = clone.offsetLeft - newX + "px"
+    clone.style.top = clone.offsetTop - newY + "px"
   }
 
   function mouseUp() {
