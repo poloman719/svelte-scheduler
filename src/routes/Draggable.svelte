@@ -9,11 +9,18 @@
 	let startY = 0;
 	let X = 50;
 	let Y = 50;
+	let offsetX = 50;
+	let offsetY = 50;
 
 	const mouseDown = (e) => {
 		dragging = true;
 		startX = e.clientX;
 		startY = e.clientY;
+	};
+
+	const mouseUp = (e) => {
+		offsetX = X;
+		offsetY = Y;
 	};
 
 	const move = (e) => {
@@ -22,21 +29,30 @@
 		newX = startX - e.clientX;
 		newY = startY - e.clientY;
 
-		Y = el.offsetTop - newY;
-		X = el.offsetLeft - newX;
+		X = offsetX - newX;
+		Y = offsetY - newY;
+
+		// Y = el.offsetTop - newY;
+		// X = el.offsetLeft - newX;
 	};
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class={`fixed top-[${Y}px] left-[${X}px] select-none`}
+	class={`relative select-none`}
+	style={`top: ${Y}px; left: ${X}px;`}
 	bind:this={el}
 	on:mousedown={mouseDown}
-  draggable="true"
+	on:mouseup={mouseUp}
+	draggable="false"
 >
 	<slot />
 </div>
 <svelte:document on:mousemove={move} on:mouseup={() => (dragging = false)} />
-{X}
-{Y}
+{startX - newX}
+{startY - newY}
+{startX}
+{startY}
+{offsetX}
+{offsetY}
 {dragging}
