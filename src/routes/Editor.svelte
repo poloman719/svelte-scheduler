@@ -15,7 +15,7 @@
 	let initHour = 12;
 	let initMinute = 0;
 	let taskInput;
-	let dragg;
+	let order = [1, 2];
 	$: {
 		const date = new Date();
 		date.setHours(initHour);
@@ -39,6 +39,26 @@
 			durationToAdd = '';
 		}
 		taskInput.focus();
+	};
+
+	const moveTask = (from, to) => {
+		const newTasks = [];
+		for (let i = 0; i < tasks.length; i++) {
+			if (i == from) {
+				continue;
+			}
+			if (i == to) {
+				if (from < to) {
+					newTasks.push(tasks[to], tasks[from]);
+				} else {
+					newTasks.push(tasks[from], tasks[to]);
+				}
+			} else {
+				newTasks.push(tasks[i]);
+			}
+		}
+		tasks = newTasks;
+		console.log(tasks);
 	};
 </script>
 
@@ -73,7 +93,9 @@
 				if (e.target.value > 60) e.preventDefault();
 			}}
 			on:keypress={onAddTask}
-		/> min
+		/>
+		min
 	</div>
 	<Draggable><div class="bg-main-500 text-center">draggable</div></Draggable>
+	<button on:click={() => moveTask(0, 2)}>HI</button>
 </div>

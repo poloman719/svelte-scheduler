@@ -7,10 +7,10 @@
 	let newY = 0;
 	let startX = 0;
 	let startY = 0;
-	let X = 50;
-	let Y = 50;
-	let offsetX = 50;
-	let offsetY = 50;
+	let X = 0;
+	let Y = 0;
+	let offsetX = 0;
+	let offsetY = 0;
 
 	const mouseDown = (e) => {
 		dragging = true;
@@ -49,10 +49,3 @@
 	<slot />
 </div>
 <svelte:document on:mousemove={move} on:mouseup={() => (dragging = false)} />
-{startX - newX}
-{startY - newY}
-{startX}
-{startY}
-{offsetX}
-{offsetY}
-{dragging}

@@ -4,6 +4,7 @@
 	import Time from './Time.svelte';
 	import drag from '$lib/_drag.svg';
 	import { draggable } from '$lib/draggable';
+	import Draggable from './Draggable.svelte';
 
 	export let text = '';
 	export let duration = 0;
@@ -21,18 +22,21 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div
-	class="rounded-3xl bg-main-500 p-7 pl-2 flex justify-between gap-2"
-	class:bg-opacity-50={dragging}
-	use:draggable
->
-	<object data={drag} title="drag" class="pointer-events-none select-none"/>
-	<input type="text" class="outline-none w-3/4" bind:value={text} on:change={onTextChange} />
-	<input
-		type="text"
-		class="outline-none w-5 text-end"
-		bind:value={duration}
-		on:change={onDurationChange}
-	/> min
-</div>
-<div class="text-center"><Time {hour} {minute} /></div>
+<Draggable>
+	<div
+		class="rounded-3xl bg-main-500 p-7 pl-2 flex justify-between gap-2"
+		class:bg-opacity-50={dragging}
+		on:mousedown={() => (dragging = true)}
+		on:mouseup={() => (dragging = false)}
+	>
+		<object data={drag} title="drag" class="pointer-events-none select-none" />
+		<input type="text" class="outline-none w-3/4" bind:value={text} on:change={onTextChange} />
+		<input
+			type="text"
+			class="outline-none w-5 text-end"
+			bind:value={duration}
+			on:change={onDurationChange}
+		/> min
+	</div>
+	<div class="text-center"><Time {hour} {minute} /></div>
+</Draggable>
