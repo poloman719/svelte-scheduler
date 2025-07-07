@@ -1,5 +1,13 @@
 <script>
 	// @ts-nocheck
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
+
+	export let absolute = false;
+	export let X = 0;
+	export let Y = 0;
+	export let onDragEnd = () => {};
 
 	let dragging = false;
 	let el;
@@ -7,21 +15,27 @@
 	let newY = 0;
 	let startX = 0;
 	let startY = 0;
-	let X = 0;
-	let Y = 0;
-	let offsetX = 0;
-	let offsetY = 0;
+	let offsetX = X;
+	let offsetY = Y;
 
-	const mouseDown = (e) => {
+	console.log(X, Y);
+
+	export const startDrag = (x, y) => {
+		console.log('drag started');
 		dragging = true;
-		startX = e.clientX;
-		startY = e.clientY;
+		startX = x;
+		startY = y;
 	};
 
-	const mouseUp = (e) => {
+	export const endDrag = (e) => {
+		dragging = false;
 		offsetX = X;
 		offsetY = Y;
+		onDragEnd();
 	};
+
+	// const mouseUp = (e) => {
+	// };
 
 	const move = (e) => {
 		if (!dragging) return;
@@ -32,6 +46,11 @@
 		X = offsetX - newX;
 		Y = offsetY - newY;
 
+		dispatch('move', {
+			X: newX,
+			Y: newY
+		});
+
 		// Y = el.offsetTop - newY;
 		// X = el.offsetLeft - newX;
 	};
@@ -39,13 +58,11 @@
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	class={`relative select-none`}
+	class={`${absolute ? 'absolute' : 'relative'} select-none`}
 	style={`top: ${Y}px; left: ${X}px;`}
-	bind:this={el}
-	on:mousedown={mouseDown}
-	on:mouseup={mouseUp}
 	draggable="false"
+	on:mousedown
 >
 	<slot />
 </div>
-<svelte:document on:mousemove={move} on:mouseup={() => (dragging = false)} />
+<svelte:document on:mousemove={move} />
